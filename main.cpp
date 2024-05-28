@@ -1,5 +1,6 @@
 #include "DynamicArray.h"
 #include "SinglyLinkedList.h"
+#include "LinkedList.h"
 #include <iostream>
 
 int main() {
@@ -7,10 +8,24 @@ int main() {
     // Создание массива с начальной емкостью по умолчанию (10)
     DynamicArray<int> d_arr(10);
     SinglyLinkedList<int> l_arr;
+    LinkedList<int> tl_arr;
     for (int i = 0; i < 10; ++i) {
         d_arr.push_back(i);
         l_arr.push_back(i);
+        tl_arr.push_bak(i);
     }
+
+    tl_arr.printList();
+    tl_arr.erase(2);
+    tl_arr.erase(3);
+    tl_arr.erase(10);
+    tl_arr.printList();
+    tl_arr.insert(0, 10);
+    tl_arr.printList();
+    tl_arr.insert(tl_arr.size()/2, 20);
+    tl_arr.printList();
+    tl_arr[8] = 30;
+    tl_arr.printList();
 
     std::cout << std::endl;
     std::cout << "----- DynamicArray ------ " << std::endl;
@@ -58,5 +73,16 @@ int main() {
     l_arr.push_back(30);
     l_arr.printList();
     std::cout << "Size: " << l_arr.size() << std::endl;
+
+    // Демонстрация перемещающего конструктора
+    SinglyLinkedList<int> list2 = std::move(l_arr);
+    list2.printList();
+
+    // Демонстрация перемещающего оператора присваивания
+    SinglyLinkedList<int> list3;
+    list3 = std::move(list2);
+    list3.printList();
+
+
     return 0;
 }

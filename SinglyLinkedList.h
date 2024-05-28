@@ -21,6 +21,12 @@ public:
     SinglyLinkedList();
     ~SinglyLinkedList();
 
+    SinglyLinkedList(const SinglyLinkedList& other); // Копирующий конструктор
+    SinglyLinkedList(SinglyLinkedList&& other) noexcept; // Перемещающий конструктор
+
+    SinglyLinkedList& operator=(const SinglyLinkedList& other); // Копирующий оператор присваивания
+    SinglyLinkedList& operator=(SinglyLinkedList&& other) noexcept; // Перемещающий оператор присваивания
+
     void push_back(const T& value);
     void insert(int index, const T& value);
     void erase(int index);
@@ -43,6 +49,53 @@ SinglyLinkedList<T>::~SinglyLinkedList() {
         delete current;
         current = next;
     }
+}
+
+template<typename T>
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList& other) : head(nullptr), tail(nullptr), list_size(0) {
+    Node* current = other.head;
+    while (current) {
+        push_back(current->data);
+        current = current->next;
+    }
+}
+
+template<typename T>
+SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList&& other) noexcept
+        : head(other.head), tail(other.tail), list_size(other.list_size) {
+    other.head = nullptr;
+    other.tail = nullptr;
+    other.list_size = 0;
+}
+
+template<typename T>
+SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList& other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    SinglyLinkedList temp(other);
+    std::swap(head, temp.head);
+    std::swap(tail, temp.tail);
+    std::swap(list_size, temp.list_size);
+    return *this;
+}
+
+template<typename T>
+SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    std::swap(head, other.head);
+    std::swap(tail, other.tail);
+    std::swap(list_size, other.list_size);
+
+    other.head = nullptr;
+    other.tail = nullptr;
+    other.list_size = 0;
+
+    return *this;
 }
 
 template<typename T>

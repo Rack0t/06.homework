@@ -1,6 +1,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+#include <stdexcept>
+
 template<class T>
 class LinkedList {
 private:
@@ -105,7 +107,7 @@ void LinkedList<T>::erase(int index) {
         for (int i = 0; i < index; ++i) {
             current = current->next;
         }
-        current->prev->next = current->prev;
+        current->prev->next = current->next;
         if (current->next){
             current->next->prev = current->prev;
         } else {
@@ -123,7 +125,7 @@ int LinkedList<T>::size() const {
 
 template<typename T>
 T LinkedList<T>::operator[](int index) const {
-    if (index < 0 || index > list_size) {
+    if (index < 0 || index > list_size - 1) {
         throw std::out_of_range("Index out of range");
     }
     Node* current = head;
@@ -135,7 +137,7 @@ T LinkedList<T>::operator[](int index) const {
 template<typename T>
 
 T& LinkedList<T>::operator[](int index) {
-    if (index < 0 || index > list_size) {
+    if (index < 0 || index > list_size - 1) {
         throw std::out_of_range("Index out of range");
     }
     Node* current = head;
@@ -145,7 +147,7 @@ T& LinkedList<T>::operator[](int index) {
     return current->data;
 }
 
-/*
+
 template<typename T>
 void LinkedList<T>::printList() const {
     Node* current = head;
@@ -154,6 +156,5 @@ void LinkedList<T>::printList() const {
         current = current->next;
     }
 }
-*/
 
 #endif // LINKEDLIST_H
